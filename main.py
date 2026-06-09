@@ -167,11 +167,13 @@ def push_all(title, body, markdown, image_url):
     
     if BARK_KEY:
         try:
+            key = BARK_KEY.strip()
             safe_title = quote(title, safe='')
-            safe_body  = quote(body[:200], safe='')  # 截断防过长
-            url = f"https://api.day.app/{BARK_KEY}/{safe_title}/{safe_body}"
+            safe_body  = quote(body[:200], safe='')
+            url = f"https://api.day.app/{key}/{safe_title}/{safe_body}"
+            print(f"🔍 BARK_KEY 长度: {len(key)}, Key: {key[:4]}***{key[-4:]}")
             resp = requests.get(url, timeout=15)
-            print(f"✅ Bark 推送已发送 (status={resp.status_code})")
+            print(f"📱 Bark 响应: status={resp.status_code}, body={resp.text[:200]}")
         except Exception as e:
             print(f"❌ Bark 推送异常: {e}")
         except: pass
