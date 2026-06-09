@@ -165,11 +165,19 @@ def push_all(title, body, markdown, image_url):
             print("✅ NotifyMe 推送已发送")
         except: pass
     
-if BARK_KEY:
+    if BARK_KEY:
         try:
-            url = f"https://api.day.app/{BARK_KEY}/{quote(title, safe='')}/{quote(body, safe='')}"
-            requests.get(url, timeout=10)
-            print("✅ Bark 推送已发送")
+            payload = {
+                "device_key": BARK_KEY,
+                "title": title,
+                "body": body,
+                "group": "洛克王国",
+                "sound": "minuet.caf"
+            }
+            resp = requests.post("https://api.day.app/push", json=payload, timeout=15)
+            print(f"✅ Bark 推送已发送 (status={resp.status_code}, body={resp.text[:100]})")
+        except Exception as e:
+            print(f"❌ Bark 推送失败: {e}")
         except: pass
 
 # ================= 5. 主入口 =================
