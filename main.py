@@ -165,9 +165,10 @@ def push_all(title, body, markdown, image_url):
             print("✅ NotifyMe 推送已发送")
         except: pass
     
-    if BARK_KEY:
+if BARK_KEY:
         try:
-            requests.post(f"https://api.day.app/{BARK_KEY}/{title}/{body}", timeout=10)
+            url = f"https://api.day.app/{BARK_KEY}/{quote(title, safe='')}/{quote(body, safe='')}"
+            requests.get(url, timeout=10)
             print("✅ Bark 推送已发送")
         except: pass
 
